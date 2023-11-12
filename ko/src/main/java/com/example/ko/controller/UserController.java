@@ -9,8 +9,8 @@ import com.example.ko.payload.request.SignupRequest;
 import com.example.ko.payload.response.JwtResponse;
 import com.example.ko.payload.response.MessageResponse;
 import com.example.ko.sercurity.JwtUserDetails;
-import com.example.ko.service.IRolesService;
-import com.example.ko.service.IUserService;
+import com.example.ko.service.user.IRolesService;
+import com.example.ko.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -85,6 +85,9 @@ public class UserController {
 //Đăng nhập
     @PostMapping("/signin")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
+        if (!userService.exitsByUserName(loginRequest.getUserName())){
+            return ResponseEntity.badRequest().body(new MessageResponse("Tên tài khoản không tồn tại"));
+        }
         Authentication authentication = authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getUserPassWord())
         );
@@ -93,6 +96,7 @@ public class UserController {
         String jwt = jwtTokenProvider.generateToken(jwtUserDetails);
         List<String> listRoles = jwtUserDetails.getAuthorities().stream()
                 .map(item->item.getAuthority()).collect(Collectors.toList());
+        Boolean users = userService.exitsByUserName(jwtUserDetails.getUserName());
         return ResponseEntity.ok(new JwtResponse(jwt,jwtUserDetails.getUsername(),jwtUserDetails.getUserEmail(),jwtUserDetails.getPhoneNumber(),listRoles));
     }
 }

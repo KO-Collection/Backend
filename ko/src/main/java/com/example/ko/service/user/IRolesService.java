@@ -1,4 +1,4 @@
-package com.example.ko.service;
+package com.example.ko.service.user;
 
 import com.example.ko.model.ERole;
 import com.example.ko.model.Roles;

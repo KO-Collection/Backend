@@ -16,6 +16,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long productId;
+    private String code;
     @Column(name = "product_name")
     private String productName;
     @Column(columnDefinition = "double")
@@ -33,8 +34,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "type_product_id",referencedColumnName = "type_product_id")
     private TypeProduct typeProduct;
-    @ManyToOne
-    @JoinColumn(name = "size_id",referencedColumnName = "size_id")
-    private Size size;
+
 
 }
