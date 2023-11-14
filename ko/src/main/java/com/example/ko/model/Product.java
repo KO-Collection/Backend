@@ -1,8 +1,10 @@
 package com.example.ko.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -25,6 +27,9 @@ public class Product {
     private Long quantity;
     @Column(name = "description_product",columnDefinition = "longtext")
     private String descriptionProduct;
+    @Column(name = "create_time_product")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date createdTime;
     @ManyToOne
     @JoinColumn(name = "origin_id",referencedColumnName = "origin_id")
     private Origin origin;
