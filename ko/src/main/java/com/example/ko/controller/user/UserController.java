@@ -1,4 +1,4 @@
-package com.example.ko.controller;
+package com.example.ko.controller.user;
 
 import com.example.ko.config.JwtTokenProvider;
 import com.example.ko.model.ERole;

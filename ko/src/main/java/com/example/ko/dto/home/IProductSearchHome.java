@@ -11,4 +11,5 @@ public interface IProductSearchHome {
 
     String getImg();
     Date getCreatedTime();
+    Long getQuantityOrder();
 }

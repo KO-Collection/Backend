@@ -29,4 +29,9 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             "ORDER BY p.create_time_product DESC \n" +
             "limit 10;",nativeQuery = true)
     List<IProductSearchHome> getProductNew();
+    @Query(value = "SELECT p.product_id as idProduct,p.product_name as nameProduct,p.price as price,MIN(i.img_url) as img from product p join img i on p.product_id = i.product_id where p.product_id = :product_id GROUP BY p.product_id", nativeQuery = true)
+    IProductSearchHome getProductByIdProductForCart(@Param(value = "product_id") Long idProduct);
+    @Query(value = "SELECT * FROM ko_collection.product WHERE product_id = :product_id", nativeQuery = true)
+    Product getProductsById(@Param(value = "product_id") Long idProduct);
+
 }
