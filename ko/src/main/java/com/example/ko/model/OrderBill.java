@@ -23,7 +23,7 @@ public class OrderBill {
     @Column(name = "day_of_order",columnDefinition = "date")
     private String dayOfOrder;
     @Column(name = "flag_delete")
-    private Boolean flagDelete;
+    private Boolean flagDelete = false;
     @Column(columnDefinition = "text")
     private String note;
     @ManyToOne

@@ -5,7 +5,7 @@ import java.util.List;
 public interface ICartService {
     void createCard(Long idUser,Long idProduct,Long newQuantity);
     Long quantityProduct(Long id);
-    void deleteCart(Long idUser);
+    void deleteCart(Long idUser, Long idProduct);
     Long quantityProductCart(Long idProduct, Long idUser);
     List<IProductSearchHome> getAllCart( Long idUser);
 

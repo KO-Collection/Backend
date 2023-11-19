@@ -23,8 +23,8 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void deleteCart(Long idUser) {
-        cartRepository.deleteCart(idUser);
+    public void deleteCart(Long idUser,Long idProduct) {
+        cartRepository.deleteCart(idUser,idProduct);
     }
 
     @Override

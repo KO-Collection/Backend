@@ -22,8 +22,10 @@ public interface ICartRepository extends JpaRepository<Cart,Long> {
     Long quantityProduct(@Param("id") Long id);
     @Query(value =" select c.quantity_order  from cart c where c.product_id = :product_id and c.user_id = :user_id",nativeQuery = true)
     Long quantityProductCart(@Param("product_id") Long idProduct,@Param("user_id") Long idUser);
-    @Query(value = "delete from cart where id_user = :id",nativeQuery = true)
-    void deleteCart(@Param("id") Long idUser);
+    @Transactional
+    @Modifying
+    @Query(value = "delete from cart where user_id = :id_user and product_id = :product_id",nativeQuery = true)
+    void deleteCart(@Param("id_user") Long idUser,@Param("product_id") Long idProduct);
     @Query(value = "SELECT  p.product_id as idProduct,p.product_name as nameProduct,p.price as price,MIN(i.img_url) as img ,c.quantity_order as quantityOrder\n" +
             "from cart c \n" +
             " join product p on p.product_id = c.product_id\n" +
