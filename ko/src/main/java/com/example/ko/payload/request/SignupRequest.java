@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class SignupRequest {
     private String userName;
+    private String nameCustomer;
     private String userPassWord;
     private String userEmail;
     private String phoneNumber;
@@ -20,6 +21,8 @@ public class SignupRequest {
     private Boolean flagOnline = true;
     private Set<String> listRoles;
 
+    public SignupRequest() {
+    }
     public SignupRequest(String userName, String userPassWord, String userEmail, String phoneNumber, String birthDay, String userImg, String address, Set<String> listRoles) {
         this.userName = userName;
         this.userPassWord = userPassWord;
@@ -92,6 +95,15 @@ public class SignupRequest {
         this.listRoles = listRoles;
     }
 
+
+
+    public String getNameCustomer() {
+        return nameCustomer;
+    }
+
+    public void setNameCustomer(String nameCustomer) {
+        this.nameCustomer = nameCustomer;
+    }
 
     public String getUserName() {
         return userName;

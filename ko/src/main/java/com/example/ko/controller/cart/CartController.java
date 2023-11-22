@@ -26,7 +26,8 @@ public class CartController {
     @PostMapping("/create")
     public ResponseEntity<String> createCart(@RequestParam(defaultValue = "1", name="name_user") String nameUser,
                                              @RequestParam (defaultValue = "0", name = "id_product") Long idProduct,
-                                             @RequestParam (defaultValue = "0",name = "quantity") Long quantity) {
+                                             @RequestParam (defaultValue = "0", name = "id_size") Long idSize,
+                                             @RequestParam (defaultValue = "0",name = "quantity") Long enterQuantity) {
         Users users = userService.findByUserName(nameUser);
         Long idUSer = users.getUserId();
         Product product1 = productService.getProductById(idProduct);
@@ -36,23 +37,23 @@ public class CartController {
         if (idUSer == null || idUSer < 1) {
             return new ResponseEntity<>("Không tìm thấy idUser", HttpStatus.NOT_ACCEPTABLE);
         }
-        if (quantity == null) {
+        if (enterQuantity == null) {
             return new ResponseEntity<>("Sai số lượng chọn hàng", HttpStatus.NOT_ACCEPTABLE);
         }
         Long checkQuantityProduct = cartService.quantityProduct(idProduct);
-        Long checkQuantityCart = cartService.quantityProductCart(idProduct, idUSer);
+        Long checkQuantityCart = cartService.quantityProductCart(idProduct, idUSer,idSize);
 
         if (checkQuantityProduct < 1) {
             return new ResponseEntity<>("Chọn không thành công sản phẩm  đã hết hàng", HttpStatus.CREATED);
         }
         if (checkQuantityCart != null) {
-            if ((checkQuantityCart + quantity) > checkQuantityProduct) {
-                return new ResponseEntity<>("Chọn không thành công số lượng  vượt quá số lượng kho", HttpStatus.CREATED);
-            } else if ((checkQuantityCart + quantity) < 0) {
+            if ((checkQuantityCart + enterQuantity) > checkQuantityProduct) {
+                return new ResponseEntity<>( HttpStatus.IM_USED);
+            } else if ((checkQuantityCart + enterQuantity) < 1) {
                 return new ResponseEntity<>("Chọn không thành công số lượng  đã hết", HttpStatus.CREATED);
             }
         }
-        cartService.createCard(idUSer, idProduct, quantity);
+        cartService.createCard(idUSer,idProduct,idSize,enterQuantity);
         return new ResponseEntity<>(product1.getProductName() + "đã được thêm vào giỏ hàng", HttpStatus.OK);
     }
     @GetMapping("/list")
@@ -70,7 +71,8 @@ public class CartController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteCart(@RequestParam(defaultValue = "1", name = "user_name") String nameUser,
-                                             @RequestParam(defaultValue = "0", name = "id_product") Long idProduct
+                                             @RequestParam(defaultValue = "0", name = "id_product") Long idProduct,
+                                             @RequestParam(defaultValue = "0", name = "id_size") Long idSize
     ) {
         Users users = userService.findByUserName(nameUser);
         Long idUsers = users.getUserId();
@@ -81,7 +83,7 @@ public class CartController {
         if (product1 == null) {
             return new ResponseEntity<>("Không có sản phẩm trong giỏ hàng", HttpStatus.NOT_FOUND);
         }
-      cartService.deleteCart(idUsers,idProduct);
+      cartService.deleteCart(idUsers,idProduct,idSize);
         return new ResponseEntity<>(product1.getProductName() + "đã xóa khỏi giỏ hàng", HttpStatus.OK);
     }
 

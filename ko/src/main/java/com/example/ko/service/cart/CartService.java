@@ -13,8 +13,8 @@ public class CartService implements ICartService {
     ICartRepository cartRepository;
 
     @Override
-    public void createCard(Long idUser, Long idProduct, Long newQuantity) {
-        cartRepository.createCard(idUser, idProduct, newQuantity);
+    public void createCard(Long idUser, Long idProduct,Long idSize,Long newQuantity) {
+        cartRepository.createCard(idUser, idProduct,idSize,newQuantity);
     }
 
     @Override
@@ -23,13 +23,13 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void deleteCart(Long idUser,Long idProduct) {
-        cartRepository.deleteCart(idUser,idProduct);
+    public void deleteCart(Long idUser,Long idProduct,Long idSize) {
+        cartRepository.deleteCart(idUser,idProduct,idSize);
     }
 
     @Override
-    public Long quantityProductCart(Long idProduct, Long idUser) {
-        return cartRepository.quantityProductCart(idProduct,idUser);
+    public Long quantityProductCart(Long idProduct, Long idUser,Long idSize) {
+        return cartRepository.quantityProductCart(idProduct,idUser,idSize);
     }
 
     @Override

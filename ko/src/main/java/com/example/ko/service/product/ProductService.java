@@ -1,11 +1,21 @@
 package com.example.ko.service.product;
 
 import com.example.ko.dto.home.IProductSearchHome;
+import com.example.ko.dto.home.ISearch;
+import com.example.ko.dto.home.ISizeProduct;
+import com.example.ko.model.ColorProduct;
 import com.example.ko.model.Product;
+import com.example.ko.model.Size;
+import com.example.ko.model.TypeProduct;
 import com.example.ko.repository.IProductRepository;
 import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.awt.*;
+import java.util.List;
 
 @Service
 public class ProductService implements IProductService {
@@ -21,4 +31,28 @@ public class ProductService implements IProductService {
         return productRepository.findById(idProduct).orElse(null);
     }
 
+    @Override
+    public List<ISizeProduct> getSizeProduct(Long idProduct) {
+        return productRepository.getSizeProduct(idProduct);
+    }
+
+    @Override
+    public Page<IProductSearchHome> getAllProduct(Pageable pageable, String name, List<Long> size, List<Long> color, List<Long> typeProducts) {
+        return productRepository.findAllProductHomePrice(pageable,name);
+    }
+
+    @Override
+    public List<ISearch> getAllSize() {
+        return productRepository.getSizeSearch();
+    }
+
+    @Override
+    public List<ISearch> getAllColor() {
+        return productRepository.getColorProduct();
+    }
+
+    @Override
+    public List<ISearch> getAllType() {
+        return productRepository.getTypeSearch();
+    }
 }

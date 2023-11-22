@@ -19,6 +19,8 @@ public class Users {
     private Long userId;
     @Column(name = "user_name",unique = true,nullable = false)
     private String userName;
+    @Column(name = "name")
+    private String nameCustomer;
     @Column(name = "user_password",nullable = false)
     @JsonIgnore
     private String userPassWord;

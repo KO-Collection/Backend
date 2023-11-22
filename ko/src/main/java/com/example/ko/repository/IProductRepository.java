@@ -1,7 +1,10 @@
 package com.example.ko.repository;
 
 import com.example.ko.dto.home.IProductSearchHome;
+import com.example.ko.dto.home.ISearch;
+import com.example.ko.dto.home.ISizeProduct;
 import com.example.ko.model.Product;
+import com.example.ko.model.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +16,8 @@ import java.util.List;
 public interface IProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "SELECT p.product_id as idProduct,p.product_name as nameProduct,p.price as price,MIN(i.img_url) as img from product p join img i on p.product_id = i.product_id where p.product_name like :name GROUP BY p.product_id", nativeQuery = true)
     Page<IProductSearchHome> findAllProductHome(Pageable pageable,@Param(value = "name") String name);
+    @Query(value = "SELECT p.product_id as idProduct,p.product_name as nameProduct,p.price as price,MIN(i.img_url) as img from product p join img i on p.product_id = i.product_id where p.product_name like :name GROUP BY p.product_id", nativeQuery = true)
+    Page<IProductSearchHome> findAllProductHomePrice(Pageable pageable,@Param(value = "name") String name);
     @Query(value = "SELECT p.product_id as idProduct,p.product_name as nameProduct,p.price as price,MIN(i.img_url) as img,sum(o.quantity_order) as quantity_total \n" +
             "from product p\n" +
             "join img i on p.product_id = i.product_id \n" +
@@ -33,5 +38,13 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     IProductSearchHome getProductByIdProductForCart(@Param(value = "product_id") Long idProduct);
     @Query(value = "SELECT * FROM ko_collection.product WHERE product_id = :product_id", nativeQuery = true)
     Product getProductsById(@Param(value = "product_id") Long idProduct);
-
+    @Query(value = "select s.size_name as name ,s.size_id as id from size_detail dt \n" +
+            "join size s on dt.size_id = s.size_id WHERE dt.product_id = :product_id", nativeQuery = true)
+    List<ISizeProduct> getSizeProduct(@Param(value = "product_id") Long idProduct);
+    @Query(value = "  select color_product_id as idColor,color_product_name as nameColor from color_product ", nativeQuery = true)
+    List<ISearch> getColorProduct();
+    @Query(value = "  select size_id as idSize,size_name as nameSize from size ", nativeQuery = true)
+    List<ISearch> getSizeSearch();
+    @Query(value = " select type_detail_id as idType,type_detail_name as nameType from type_detail ", nativeQuery = true)
+    List<ISearch> getTypeSearch();
 }

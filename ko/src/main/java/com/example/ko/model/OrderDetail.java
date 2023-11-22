@@ -28,4 +28,7 @@ public class OrderDetail {
     @ManyToOne
     @JoinColumn(name = "product_id",referencedColumnName = "product_id")
     private Product product;
+    @ManyToOne
+    @JoinColumn(name = "size_id",referencedColumnName = "size_id")
+    private Size size;
 }

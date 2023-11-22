@@ -1,6 +1,6 @@
 package com.example.ko.controller.product;
 
-import com.example.ko.model.Img;
+import com.example.ko.dto.home.ISearch;
 import com.example.ko.model.Product;
 import com.example.ko.service.img.IImgService;
 import com.example.ko.service.product.IProductService;
@@ -41,5 +41,21 @@ public class ProductController {
             return new ResponseEntity<>(imgList, HttpStatus.OK);
         }
         return new ResponseEntity<>("Không tìm thấy sản phẩm", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Object> getALlSize() {
+        List<ISearch> sizeList = productService.getAllSize();
+        return new ResponseEntity<>(sizeList,HttpStatus.OK);
+    }
+    @GetMapping("/color")
+    public ResponseEntity<Object> getAllColor() {
+        List<ISearch> colorList = productService.getAllColor();
+        return new ResponseEntity<>(colorList,HttpStatus.OK);
+    }
+    @GetMapping("/type")
+    public ResponseEntity<Object> getAllType() {
+        List<ISearch> typeList = productService.getAllType();
+        return new ResponseEntity<>(typeList,HttpStatus.OK);
     }
 }

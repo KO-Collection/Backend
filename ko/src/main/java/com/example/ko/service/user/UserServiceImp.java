@@ -26,7 +26,17 @@ public class UserServiceImp implements IUserService {
     }
 
     @Override
+    public boolean exitsByUserPhone(String phone) {
+        return userRepository.existsByPhoneNumber(phone);
+    }
+
+    @Override
     public Users saveOrUpdate(Users users) {
         return userRepository.save(users);
+    }
+
+    @Override
+    public int updateUser(Users users) {
+        return userRepository.updateOnlineCustomer(users);
     }
 }

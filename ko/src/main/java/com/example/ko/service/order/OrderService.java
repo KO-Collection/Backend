@@ -1,11 +1,15 @@
 package com.example.ko.service.order;
 
+import com.example.ko.dto.home.IHistoryOrder;
 import com.example.ko.repository.IOrderBillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class OrderService implements IOrderService{
@@ -25,7 +29,12 @@ public class OrderService implements IOrderService{
     }
 
     @Override
-    public void createOrderDetail(Long idOrderBill, Long idProduct, Long quantity, Double price) {
-        orderBillRepository.createOrderBillDetail(idProduct,idOrderBill,quantity,price);
+    public void createOrderDetail(Long idOrderBill, Long idProduct, Long quantity, Double price, Long idSize) {
+        orderBillRepository.createOrderBillDetail(idProduct,idOrderBill,quantity,price,idSize);
+    }
+
+    @Override
+    public Page<IHistoryOrder> getOrderBillByIdUser(Pageable pageable, String nameUser) {
+        return orderBillRepository.getOrderBillByIdUser(pageable,nameUser);
     }
 }
