@@ -1,5 +1,6 @@
 package com.example.ko.controller.product;
 
+import com.example.ko.dto.home.IProductSearchHome;
 import com.example.ko.dto.home.ISearch;
 import com.example.ko.model.Product;
 import com.example.ko.service.img.IImgService;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -19,7 +21,23 @@ public class ProductController {
     IProductService productService;
     @Autowired
     IImgService imgService;
+    @GetMapping("/list")
+    public ResponseEntity<Object> getAllPRoduct(
+            @RequestParam(name = "time",defaultValue = "") String time,
+            @RequestParam(name = "color",defaultValue = "") String[] colorList,
+            @RequestParam(defaultValue = "0", name = "min") double minPrice,
+            @RequestParam(defaultValue = "12000000", name = "max") double maxPrice,
+            @RequestParam(name = "type",defaultValue = "") String[] typeList
 
+    ) {
+
+        List<IProductSearchHome> getProductList = productService.findAllProductSale(time,colorList,minPrice,maxPrice,typeList);
+        if (getProductList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(getProductList, HttpStatus.OK);
+
+    }
     @GetMapping("/detail/{id}")
     public ResponseEntity<Product> findProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);

@@ -37,6 +37,30 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public List<IProductSearchHome> findAllProductSale(String time, String[] colorList, Double minPrice, Double maxPrice, String[] typeList) {
+        if (time.equals("")){
+            time = "%%";
+        }
+
+        if (colorList.length == 0 && typeList.length == 0 ){
+            String[] colorListNew = new String[]{"Vàng","Đỏ","Hồng","Tím","Đen","Trắng","Xanh da trời","Đà","Nâu"};
+            String[] typeListNew = new String[]{"Áo sơ mi tay ngắn","Áo sơ mi tay dài","Áo sơ mi tay lỡ","Quần dài","Quần short","Quần lửng","Áo vest","Áo khoác kiểu","Măng tô"};
+            return productRepository.findAllProduct(time,colorListNew,minPrice,maxPrice,typeListNew);
+        }
+
+        if (colorList.length == 0){
+            String[] colorListNew = new String[]{"Vàng","Đỏ","Hồng","Tím","Đen","Trắng","Xanh da trời","Đà","Nâu"};
+            return productRepository.findAllProduct(time,colorListNew,minPrice,maxPrice,typeList);
+        }
+        if (typeList.length == 0){
+            String[] typeListNew = new String[]{"Áo sơ mi tay ngắn","Áo sơ mi tay dài","Áo sơ mi tay lỡ","Quần dài","Quần short","Quần lửng","Áo vest","Áo khoác kiểu","Măng tô"};
+            return productRepository.findAllProduct(time,colorList,minPrice,maxPrice,typeListNew);
+        }
+
+        return productRepository.findAllProduct(time,colorList,minPrice,maxPrice,typeList);
+    }
+
+    @Override
     public Page<IProductSearchHome> getAllProduct(Pageable pageable, String name, List<Long> size, List<Long> color, List<Long> typeProducts) {
         return productRepository.findAllProductHomePrice(pageable,name);
     }
@@ -50,6 +74,7 @@ public class ProductService implements IProductService {
     public List<ISearch> getAllColor() {
         return productRepository.getColorProduct();
     }
+
 
     @Override
     public List<ISearch> getAllType() {

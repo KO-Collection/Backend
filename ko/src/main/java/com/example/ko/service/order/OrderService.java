@@ -1,6 +1,7 @@
 package com.example.ko.service.order;
 
 import com.example.ko.dto.home.IHistoryOrder;
+import com.example.ko.dto.home.IOrderDetail;
 import com.example.ko.repository.IOrderBillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,5 +37,10 @@ public class OrderService implements IOrderService{
     @Override
     public Page<IHistoryOrder> getOrderBillByIdUser(Pageable pageable, String nameUser) {
         return orderBillRepository.getOrderBillByIdUser(pageable,nameUser);
+    }
+
+    @Override
+    public Page<IOrderDetail> getOrderBillDetail(Pageable pageable, String nameUser, String time) {
+        return orderBillRepository.getOrderBillDetail(pageable,nameUser,time);
     }
 }

@@ -1,7 +1,9 @@
 package com.example.ko.repository;
 
 import com.example.ko.dto.home.IHistoryOrder;
+import com.example.ko.dto.home.IOrderDetail;
 import com.example.ko.model.OrderBill;
+import com.example.ko.model.OrderDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,5 +38,17 @@ public interface IOrderBillRepository extends JpaRepository<OrderBill,Long> {
     @Modifying
     @Query(nativeQuery = true, value = " INSERT INTO ko_collection.order_detail ( product_id, order_bill_id,quantity_order, price_order,size_id) VALUES ( :product_id, :order_bill_id,:quantity_order, :price_order, :size_id) ")
     void createOrderBillDetail(@Param("product_id") Long idProduct, @Param("order_bill_id")Long idOrderBill, @Param("quantity_order")Long quantity,@Param("price_order")Double price,@Param("size_id")Long idSize);
+    @Query(nativeQuery = true, value = " SELECT odl.price_order as totalMoney ,p.product_name as nameProduct,\n" +
+            "s.size_name as nameSize, odl.quantity_order as quantity,\n" +
+            "ob.time_of_order as timeOrder, \n" +
+            "cl.color_product_name as color \n" +
+            " FROM ko_collection.order_detail odl\n" +
+            "join product p on odl.product_id = p.product_id\n" +
+            "join order_bill ob on ob.order_bill_id = odl.order_bill_id\n" +
+            "join users u on u.user_id = ob.user_id\n" +
+            "join color_product cl on cl.color_product_id = p.color_product_id\n" +
+            "join size s on s.size_id = odl.size_id\n" +
+            " where ob.day_of_order = :time and u.user_name = :user_name ")
+    Page<IOrderDetail> getOrderBillDetail(Pageable pageable,@Param("user_name")String nameUser, @Param("time")String time);
 
 }

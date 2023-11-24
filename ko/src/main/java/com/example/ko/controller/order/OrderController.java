@@ -1,6 +1,7 @@
 package com.example.ko.controller.order;
 
 import com.example.ko.dto.home.IHistoryOrder;
+import com.example.ko.dto.home.IOrderDetail;
 import com.example.ko.dto.home.IProductSearchHome;
 import com.example.ko.model.Product;
 import com.example.ko.model.Users;
@@ -69,5 +70,18 @@ public class OrderController {
         }
         return ResponseEntity.noContent().build();
 
+    }
+    @GetMapping("/detail")
+    public ResponseEntity<?> getDetailOrder(
+            @RequestParam(defaultValue = "0", required = false, name = "page") Integer page,
+            @RequestParam(name = "name_user") String nameUser,
+            @RequestParam(name = "time") String time
+    ) {
+        Pageable pageable1 = PageRequest.of(page,5, Sort.by("timeOrder").descending());
+        Page<IOrderDetail> getListOrder = orderService.getOrderBillDetail(pageable1, nameUser,time);
+        if (!getListOrder.isEmpty()) {
+            return new ResponseEntity<>(getListOrder, HttpStatus.OK);
+        }
+        return ResponseEntity.noContent().build();
     }
 }

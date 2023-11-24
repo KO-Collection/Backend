@@ -18,6 +18,8 @@ public interface IProductService {
     List<ISearch> getAllSize();
     List<ISearch> getAllColor();
     List<ISearch> getAllType();
+
+    List<IProductSearchHome> findAllProductSale(String time,String[] colorList,Double minPrice,Double maxPrice,String[] typeList);
     Page<IProductSearchHome> getAllProduct(Pageable pageable, String name, List<Long> size, List<Long> color, List<Long> typeProducts);
 
 }
